@@ -67,7 +67,9 @@ function ui.drawSidebar(score, lines, level, nextKind)
   love.graphics.print("^ / W Rotate", 360, 230)
   love.graphics.print("v / S Soft Drop", 360, 260)
   love.graphics.print("Space Hard Drop", 360, 290)
-  love.graphics.print("Next:", 360, 360)
+  love.graphics.print("P Pause", 360, 320)
+  love.graphics.print("R Restart", 360, 350)
+  love.graphics.print("Next:", 360, 380)
 
   if nextKind then
     local preview = pieces.shapes[nextKind][1]
@@ -75,7 +77,7 @@ function ui.drawSidebar(score, lines, level, nextKind)
     for y = 1, #preview do
       for x = 1, #preview[y] do
         if preview[y][x] == 1 then
-          ui.drawCell(360 + (x - 1) * 24, 390 + (y - 1) * 24, config.colors.pieces[nextKind], 24)
+          ui.drawCell(360 + (x - 1) * 24, 430 + (y - 1) * 24, config.colors.pieces[nextKind], 24)
         end
       end
     end
@@ -87,6 +89,13 @@ function ui.drawGameOver()
   love.graphics.rectangle("fill", 40, 260, 280, 120, 16, 16)
   setColor(config.colors.text)
   love.graphics.printf("GAME OVER\nPress R to Restart", 40, 300, 280, "center")
+end
+
+function ui.drawPaused()
+  setColor(config.colors.overlay)
+  love.graphics.rectangle("fill", 40, 260, 280, 120, 16, 16)
+  setColor(config.colors.text)
+  love.graphics.printf("PAUSED\nPress P to Resume\nPress R to Restart", 40, 290, 280, "center")
 end
 
 return ui

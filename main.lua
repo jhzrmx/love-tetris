@@ -13,6 +13,7 @@ local level = 1
 local dropTimer = 0
 local dropDelay = config.drop.initialDelay
 local gameOver = false
+local paused = false
 local repeatState = {
   left = {timer = 0, repeating = false},
   right = {timer = 0, repeating = false},
@@ -154,6 +155,7 @@ local function resetGame()
   dropTimer = 0
   dropDelay = config.drop.initialDelay
   gameOver = false
+  paused = false
   resetRepeats()
   spawn()
 end
@@ -166,7 +168,8 @@ function love.load()
 end
 
 function love.update(dt)
-  if gameOver then
+  if gameOver or paused then
+    resetRepeats()
     return
   end
 
@@ -189,8 +192,18 @@ function love.update(dt)
 end
 
 function love.keypressed(key)
-  if gameOver and key == "r" then
+  if key == "r" then
     resetGame()
+    return
+  end
+
+  if key == "p" and not gameOver then
+    paused = not paused
+    resetRepeats()
+    return
+  end
+
+  if paused then
     return
   end
 
@@ -226,5 +239,7 @@ function love.draw()
 
   if gameOver then
     ui.drawGameOver()
+  elseif paused then
+    ui.drawPaused()
   end
 end

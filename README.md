@@ -15,6 +15,7 @@ Love Tetris includes:
 - Soft drop and hard drop
 - Score, line, and level tracking
 - Increasing speed as levels rise
+- Pause, resume, and restart controls
 - Game over screen with quick restart
 
 ## Requirements
@@ -48,7 +49,8 @@ On Windows, you can also drag the project folder onto `love.exe`.
 | Up Arrow / W | Rotate piece |
 | Down Arrow / S | Soft drop |
 | Space | Hard drop |
-| R | Restart after game over |
+| P | Pause or resume |
+| R | Restart the game |
 
 Movement, rotation, and soft drop keys can be held down for repeated input.
 
@@ -93,7 +95,6 @@ Here are some friendly ways to improve the game:
 - Add ghost piece preview
 - Add hold piece support
 - Add sound effects and background music
-- Add pause and resume
 - Add start menu and settings screen
 - Add high score saving
 - Improve wall kicks during rotation
@@ -140,4 +141,3 @@ Please keep changes focused and easy to review. If you are planning a larger cha
 ## License
 
 This project is licensed under the MIT License. See [LICENSE](LICENSE) for details.
-
