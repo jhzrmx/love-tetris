@@ -67,16 +67,21 @@ Soft drops add `1` point per row. Hard drops add `2` points per row.
 
 ```text
 love-tetris/
+|-- board.lua
+|-- config.lua
 |-- main.lua
+|-- pieces.lua
+|-- ui.lua
 `-- README.md
 ```
 
-Everything currently lives in `main.lua`, which makes the project easy to inspect. As the game grows, good future modules could include:
+The game is split into small modules so contributors can work on focused parts of the codebase:
 
-- `board.lua` for board state and line clearing
-- `pieces.lua` for tetromino data and rotation
-- `ui.lua` for drawing the side panel and overlays
-- `config.lua` for colors, scoring, and timing
+- `main.lua` wires the Love2D callbacks and game flow together.
+- `board.lua` manages board state, collision checks, locking pieces, and line clearing.
+- `pieces.lua` contains tetromino data, rotation, and 7-bag generation.
+- `ui.lua` draws the board, active piece, sidebar, preview, and game-over overlay.
+- `config.lua` stores shared constants for layout, colors, scoring, and timing.
 
 ## Ideas for Contributors
 
