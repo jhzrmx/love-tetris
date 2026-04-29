@@ -112,14 +112,14 @@ function love.keypressed(key)
     return
   end
 
-  if key == "left" and not board.collides(grid, current.x - 1, current.y, current.shape) then
+  if (key == "left" or key == "a") and not board.collides(grid, current.x - 1, current.y, current.shape) then
     current.x = current.x - 1
-  elseif key == "right" and not board.collides(grid, current.x + 1, current.y, current.shape) then
+  elseif (key == "right" or key == "d") and not board.collides(grid, current.x + 1, current.y, current.shape) then
     current.x = current.x + 1
-  elseif key == "down" and not board.collides(grid, current.x, current.y + 1, current.shape) then
+  elseif (key == "down" or key == "s") and not board.collides(grid, current.x, current.y + 1, current.shape) then
     current.y = current.y + 1
     score = score + config.scoring.softDrop
-  elseif key == "up" then
+  elseif key == "up" or key == "w" then
     local rotated = pieces.rotate(current.shape)
 
     if not board.collides(grid, current.x, current.y, rotated) then

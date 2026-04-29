@@ -43,10 +43,10 @@ On Windows, you can also drag the project folder onto `love.exe`.
 
 | Key | Action |
 | --- | --- |
-| Left Arrow | Move piece left |
-| Right Arrow | Move piece right |
-| Up Arrow | Rotate piece |
-| Down Arrow | Soft drop |
+| Left Arrow / A | Move piece left |
+| Right Arrow / D | Move piece right |
+| Up Arrow / W | Rotate piece |
+| Down Arrow / S | Soft drop |
 | Space | Hard drop |
 | R | Restart after game over |
 
