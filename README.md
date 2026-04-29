@@ -6,6 +6,8 @@ This project is intentionally small and approachable: classic falling-block game
 
 ## Preview
 
+<img src="preview.gif" width="320">
+
 Love Tetris includes:
 
 - Classic 10 x 20 Tetris board
@@ -77,6 +79,7 @@ love-tetris/
   ├── pieces.lua
   ├── ui.lua
   ├── LICENSE
+  ├── preview.gif
   └── README.md
 ```
 
