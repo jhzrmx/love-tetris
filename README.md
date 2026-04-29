@@ -15,6 +15,7 @@ Love Tetris includes:
 - Randomized 7-bag piece generation
 - Next-piece preview
 - Soft drop and hard drop
+- Animated line clears
 - Score, line, and level tracking
 - Increasing speed as levels rise
 - Pause, resume, and restart controls
@@ -101,7 +102,6 @@ Here are some friendly ways to improve the game:
 - Add start menu and settings screen
 - Add high score saving
 - Improve wall kicks during rotation
-- Add animations for line clears
 - Add mobile or gamepad controls
 
 ## Contributing

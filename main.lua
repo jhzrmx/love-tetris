@@ -14,6 +14,8 @@ local dropTimer = 0
 local dropDelay = config.drop.initialDelay
 local gameOver = false
 local paused = false
+local clearingLines = {}
+local clearTimer = 0
 local repeatState = {
   left = {timer = 0, repeating = false},
   right = {timer = 0, repeating = false},
@@ -95,6 +97,10 @@ local function updateRepeat(action, dt, callback, interval)
   end
 end
 
+local function isClearingLines()
+  return #clearingLines > 0
+end
+
 local function spawn()
   if #bag == 0 then
     bag = pieces.newBag()
@@ -118,8 +124,12 @@ local function spawn()
   end
 end
 
-local function clearLines()
-  local cleared = board.clearLines(grid)
+local function applyClearedLines()
+  local cleared = #clearingLines
+
+  board.removeLines(grid, clearingLines)
+  clearingLines = {}
+  clearTimer = 0
 
   if cleared > 0 then
     lines = lines + cleared
@@ -127,12 +137,25 @@ local function clearLines()
     level = 1 + math.floor(lines / 10)
     dropDelay = math.max(config.drop.minDelay, config.drop.initialDelay - (level - 1) * config.drop.levelStep)
   end
+
+  spawn()
+end
+
+local function startLineClear()
+  clearingLines = board.findFullLines(grid)
+  clearTimer = 0
+
+  if isClearingLines() then
+    current = nil
+    resetRepeats()
+  else
+    spawn()
+  end
 end
 
 local function lockAndSpawn()
   board.lockPiece(grid, current)
-  clearLines()
-  spawn()
+  startLineClear()
 end
 
 local function hardDrop()
@@ -156,6 +179,8 @@ local function resetGame()
   dropDelay = config.drop.initialDelay
   gameOver = false
   paused = false
+  clearingLines = {}
+  clearTimer = 0
   resetRepeats()
   spawn()
 end
@@ -170,6 +195,16 @@ end
 function love.update(dt)
   if gameOver or paused then
     resetRepeats()
+    return
+  end
+
+  if isClearingLines() then
+    clearTimer = clearTimer + dt
+
+    if clearTimer >= config.animation.lineClearDuration then
+      applyClearedLines()
+    end
+
     return
   end
 
@@ -207,6 +242,10 @@ function love.keypressed(key)
     return
   end
 
+  if isClearingLines() then
+    return
+  end
+
   if gameOver then
     return
   end
@@ -233,6 +272,10 @@ function love.draw()
 
   if current then
     ui.drawPiece(current)
+  end
+
+  if isClearingLines() then
+    ui.drawLineClearAnimation(clearingLines, clearTimer, config.animation.lineClearDuration)
   end
 
   ui.drawSidebar(score, lines, level, nextKind)

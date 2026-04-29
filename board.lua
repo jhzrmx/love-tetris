@@ -59,10 +59,15 @@ function board.lockPiece(grid, piece)
 end
 
 function board.clearLines(grid)
-  local cleared = 0
-  local y = config.rows
+  local fullLines = board.findFullLines(grid)
+  board.removeLines(grid, fullLines)
+  return #fullLines
+end
 
-  while y >= 1 do
+function board.findFullLines(grid)
+  local fullLines = {}
+
+  for y = config.rows, 1, -1 do
     local full = true
 
     for x = 1, config.cols do
@@ -73,15 +78,18 @@ function board.clearLines(grid)
     end
 
     if full then
-      table.remove(grid, y)
-      table.insert(grid, 1, newRow())
-      cleared = cleared + 1
-    else
-      y = y - 1
+      table.insert(fullLines, y)
     end
   end
 
-  return cleared
+  return fullLines
+end
+
+function board.removeLines(grid, lineNumbers)
+  for _, y in ipairs(lineNumbers) do
+    table.remove(grid, y)
+    table.insert(grid, 1, newRow())
+  end
 end
 
 return board

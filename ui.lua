@@ -58,6 +58,23 @@ function ui.drawPiece(piece)
   end
 end
 
+function ui.drawLineClearAnimation(lineNumbers, timer, duration)
+  local progress = math.min(timer / duration, 1)
+  local alpha = 0.75 * (1 - progress)
+  local inset = math.floor(progress * config.cell / 2)
+
+  for _, y in ipairs(lineNumbers) do
+    for x = 1, config.cols do
+      local px = config.board.x + (x - 1) * config.cell + inset
+      local py = config.board.y + (y - 1) * config.cell + inset
+      local size = config.cell - 2 - inset * 2
+
+      love.graphics.setColor(1, 1, 1, alpha)
+      love.graphics.rectangle("fill", px, py, size, size, 6, 6)
+    end
+  end
+end
+
 function ui.drawSidebar(score, lines, level, nextKind)
   setColor(config.colors.text)
   love.graphics.print("Score: " .. score, 360, 60)

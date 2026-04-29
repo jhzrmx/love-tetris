@@ -31,6 +31,10 @@ config.input = {
   rotateRepeatInterval = 0.12
 }
 
+config.animation = {
+  lineClearDuration = 0.28
+}
+
 config.scoring = {
   lineClears = {100, 300, 500, 800},
   softDrop = 1,
