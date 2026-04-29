@@ -60,9 +60,9 @@ end
 
 function board.clearLines(grid)
   local cleared = 0
-  local y = config.rows
+  local remaining = {}
 
-  while y >= 1 do
+  for y = config.rows, 1, -1 do
     local full = true
 
     for x = 1, config.cols do
@@ -73,11 +73,19 @@ function board.clearLines(grid)
     end
 
     if full then
-      table.remove(grid, y)
-      table.insert(grid, 1, newRow())
       cleared = cleared + 1
     else
-      y = y - 1
+      table.insert(remaining, 1, grid[y])
+    end
+  end
+
+  if cleared > 0 then
+    for y = 1, cleared do
+      grid[y] = newRow()
+    end
+
+    for y = 1, #remaining do
+      grid[cleared + y] = remaining[y]
     end
   end
 
