@@ -24,6 +24,13 @@ config.drop = {
   levelStep = 0.06
 }
 
+config.input = {
+  repeatDelay = 0.16,
+  moveRepeatInterval = 0.06,
+  softDropRepeatInterval = 0.045,
+  rotateRepeatInterval = 0.12
+}
+
 config.scoring = {
   lineClears = {100, 300, 500, 800},
   softDrop = 1,

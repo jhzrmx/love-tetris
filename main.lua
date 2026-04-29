@@ -13,6 +13,86 @@ local level = 1
 local dropTimer = 0
 local dropDelay = config.drop.initialDelay
 local gameOver = false
+local repeatState = {
+  left = {timer = 0, repeating = false},
+  right = {timer = 0, repeating = false},
+  down = {timer = 0, repeating = false},
+  rotate = {timer = 0, repeating = false}
+}
+
+local inputKeys = {
+  left = {"left", "a"},
+  right = {"right", "d"},
+  down = {"down", "s"},
+  rotate = {"up", "w"}
+}
+
+local function isActionDown(action)
+  for _, key in ipairs(inputKeys[action]) do
+    if love.keyboard.isDown(key) then
+      return true
+    end
+  end
+
+  return false
+end
+
+local function resetRepeat(action)
+  repeatState[action].timer = 0
+  repeatState[action].repeating = false
+end
+
+local function resetRepeats()
+  for action in pairs(repeatState) do
+    resetRepeat(action)
+  end
+end
+
+local function moveLeft()
+  if not board.collides(grid, current.x - 1, current.y, current.shape) then
+    current.x = current.x - 1
+  end
+end
+
+local function moveRight()
+  if not board.collides(grid, current.x + 1, current.y, current.shape) then
+    current.x = current.x + 1
+  end
+end
+
+local function softDrop()
+  if not board.collides(grid, current.x, current.y + 1, current.shape) then
+    current.y = current.y + 1
+    score = score + config.scoring.softDrop
+  end
+end
+
+local function rotatePiece()
+  local rotated = pieces.rotate(current.shape)
+
+  if not board.collides(grid, current.x, current.y, rotated) then
+    current.shape = rotated
+  end
+end
+
+local function updateRepeat(action, dt, callback, interval)
+  local state = repeatState[action]
+
+  if not isActionDown(action) then
+    resetRepeat(action)
+    return
+  end
+
+  state.timer = state.timer + dt
+
+  local delay = state.repeating and interval or config.input.repeatDelay
+
+  if state.timer >= delay then
+    callback()
+    state.timer = 0
+    state.repeating = true
+  end
+end
 
 local function spawn()
   if #bag == 0 then
@@ -74,6 +154,7 @@ local function resetGame()
   dropTimer = 0
   dropDelay = config.drop.initialDelay
   gameOver = false
+  resetRepeats()
   spawn()
 end
 
@@ -88,6 +169,11 @@ function love.update(dt)
   if gameOver then
     return
   end
+
+  updateRepeat("left", dt, moveLeft, config.input.moveRepeatInterval)
+  updateRepeat("right", dt, moveRight, config.input.moveRepeatInterval)
+  updateRepeat("down", dt, softDrop, config.input.softDropRepeatInterval)
+  updateRepeat("rotate", dt, rotatePiece, config.input.rotateRepeatInterval)
 
   dropTimer = dropTimer + dt
 
@@ -112,19 +198,18 @@ function love.keypressed(key)
     return
   end
 
-  if (key == "left" or key == "a") and not board.collides(grid, current.x - 1, current.y, current.shape) then
-    current.x = current.x - 1
-  elseif (key == "right" or key == "d") and not board.collides(grid, current.x + 1, current.y, current.shape) then
-    current.x = current.x + 1
-  elseif (key == "down" or key == "s") and not board.collides(grid, current.x, current.y + 1, current.shape) then
-    current.y = current.y + 1
-    score = score + config.scoring.softDrop
+  if key == "left" or key == "a" then
+    moveLeft()
+    resetRepeat("left")
+  elseif key == "right" or key == "d" then
+    moveRight()
+    resetRepeat("right")
+  elseif key == "down" or key == "s" then
+    softDrop()
+    resetRepeat("down")
   elseif key == "up" or key == "w" then
-    local rotated = pieces.rotate(current.shape)
-
-    if not board.collides(grid, current.x, current.y, rotated) then
-      current.shape = rotated
-    end
+    rotatePiece()
+    resetRepeat("rotate")
   elseif key == "space" then
     hardDrop()
   end

@@ -50,6 +50,8 @@ On Windows, you can also drag the project folder onto `love.exe`.
 | Space | Hard drop |
 | R | Restart after game over |
 
+Movement, rotation, and soft drop keys can be held down for repeated input.
+
 ## Scoring
 
 The game uses level-based line clear scoring:
