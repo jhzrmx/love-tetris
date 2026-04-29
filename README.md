@@ -69,12 +69,12 @@ Soft drops add `1` point per row. Hard drops add `2` points per row.
 
 ```text
 love-tetris/
-|-- board.lua
-|-- config.lua
-|-- main.lua
-|-- pieces.lua
-|-- ui.lua
-`-- README.md
+  ├── board.lua
+  ├── config.lua
+  ├── main.lua
+  ├── pieces.lua
+  ├── ui.lua
+  └── README.md
 ```
 
 The game is split into small modules so contributors can work on focused parts of the codebase:
