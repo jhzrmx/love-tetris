@@ -74,6 +74,7 @@ love-tetris/
   ├── main.lua
   ├── pieces.lua
   ├── ui.lua
+  ├── LICENSE
   └── README.md
 ```
 
@@ -138,4 +139,5 @@ Please keep changes focused and easy to review. If you are planning a larger cha
 
 ## License
 
-No license has been added yet. If you plan to accept contributions publicly, consider adding an open-source license such as MIT.
+This project is licensed under the MIT License. See [LICENSE](LICENSE) for details.
+
