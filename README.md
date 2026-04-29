@@ -2,7 +2,7 @@
 
 A clean, colorful Tetris game built with [LOVE / Love2D](https://love2d.org/) and Lua.
 
-This project is intentionally small and approachable: one `main.lua` file, classic falling-block gameplay, and enough structure for beginners to read, tweak, and contribute without fighting a big codebase.
+This project is intentionally small and approachable: classic falling-block gameplay split into a few focused Lua modules, with enough structure for beginners to read, tweak, and contribute without fighting a big codebase.
 
 ## Preview
 
@@ -98,7 +98,6 @@ Here are some friendly ways to improve the game:
 - Improve wall kicks during rotation
 - Add animations for line clears
 - Add mobile or gamepad controls
-- Split the code into small Lua modules
 
 ## Contributing
 
